@@ -1,26 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import CryptoComponent from './components/CryptoComponent'
+import Crypto from './pages/Crypto'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Routes>
+        <Route path='/' element={<Crypto />}></Route>
+        <Route path='/currency/:symbol' element={<CryptoComponent />} />
+        <Route path='*' element={<Navigate to='/' />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

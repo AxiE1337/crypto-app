@@ -1,0 +1,134 @@
+.crypto {
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  .sort {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 0.5fr 1.5fr 1.5fr 0.5fr 0.5fr 0.5fr 1fr 1fr;
+    color: rgba(0, 0, 0, 0.699);
+    margin-bottom: 1em;
+    h3 {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .sortArr {
+      cursor: pointer;
+    }
+    .sortArr:hover {
+      color: rgb(1, 23, 100);
+    }
+  }
+}
+.head {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5em;
+  gap: 1em;
+}
+.component {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0 2em 0 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h3 {
+    text-align: center;
+  }
+  .price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8em;
+  }
+}
+.cryptoBar {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 0.5fr 1.5fr 1.5fr 0.5fr 0.5fr 0.5fr 1fr 1fr;
+  h5 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  p {
+    color: rgb(1, 23, 100);
+  }
+  .coin {
+    display: flex;
+    flex-direction: column;
+    p {
+      user-select: none;
+    }
+    h4 {
+      cursor: pointer;
+      background-image: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      background-size: 0% 100%;
+      background-repeat: no-repeat;
+      transition: 300ms ease;
+    }
+    h4:hover {
+      color: #adefd1ff;
+      background-size: 100% 100%;
+    }
+  }
+}
+.cryptoBar:hover {
+  background-color: rgba(1, 22, 100, 0.151);
+}
+
+.loading {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}
+
+@media only screen and (max-width: 1000px) {
+  .crypto {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    overflow: auto;
+    .sort {
+      grid-template-columns: 70px 100px 100px 100px 100px 100px 150px 170px;
+      font-size: 1rem;
+      h3 {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      h5 {
+        font-size: 1rem;
+      }
+      .sortArr:hover {
+        color: rgb(1, 23, 100);
+      }
+    }
+  }
+  .cryptoBar {
+    margin: 0 0.5em 0 0;
+    grid-template-columns: 70px 100px 100px 100px 100px 100px 150px 170px;
+    h5 {
+      font-size: 1rem;
+    }
+    h4 {
+      font-size: 1rem;
+    }
+    .coin {
+      font-size: 1rem;
+      p {
+        font-size: 0.7rem;
+      }
+      h4 {
+        font-size: 1rem;
+      }
+    }
+  }
+}
