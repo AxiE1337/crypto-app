@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { TextField, Typography, CircularProgress } from '@mui/material'
+import { TextField } from '@mui/material'
 import '../styles/crypto.css'
-import { BiSortAlt2 } from 'react-icons/bi'
+import CryptoNav from '../components/CryproNav'
 
-const Crypto: React.FC = () => {
+const Crypto = () => {
   const [cryptoData, setCryptoData] = useState<any>([])
   const [inputData, setInputData] = useState<any>('')
   const [isLoading, setIsLoadin] = useState<boolean>(true)
-  const [sortArrNum, setSortArrNum] = useState<boolean>(false)
-  const [sortArrCoin, setSortArrCoin] = useState<boolean>(false)
-  const [sortArrPrice, setSortArrPrice] = useState<boolean>(false)
-  const [sortArr1h, setSortArr1h] = useState<boolean>(false)
-  const navigate = useNavigate()
+
+  const option = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.6,
+  }
+
   useEffect(() => {
     getData()
   }, [])
@@ -27,54 +28,18 @@ const Crypto: React.FC = () => {
     }
   }
 
-  const sortArrNumFunc = () => {
-    if (!sortArrNum) {
-      setCryptoData(cryptoData.sort((a: any, b: any) => b.rank - a.rank))
-    } else {
-      setCryptoData(cryptoData.sort((a: any, b: any) => a.rank - b.rank))
-    }
-    setSortArrNum(!sortArrNum)
+  const callbackFunction = (entries: any) => {
+    entries.forEach((entry: any) => {
+      entry.target.classList.toggle('cryptoBarInv', !entry.isIntersecting)
+    })
   }
 
-  const sortArrCoinFunc = () => {
-    if (!sortArrCoin) {
-      setCryptoData(
-        cryptoData.sort((a: any, b: any) => {
-          if (a.name.toLowerCase() < b.name.toLowerCase()) {
-            return -1
-          }
-          if (a.name.toLowerCase() > b.name.toLowerCase()) {
-            return 1
-          }
-        })
-      )
-    } else {
-      setCryptoData(
-        cryptoData.sort((a: any, b: any) => {
-          if (a.name.toLowerCase() > b.name.toLowerCase()) {
-            return -1
-          }
-          if (a.name.toLowerCase() < b.name.toLowerCase()) {
-            return 1
-          }
-        })
-      )
-    }
-    setSortArrCoin(!sortArrCoin)
-  }
-
-  const sortArrPriceFunc = () => {
-    if (!sortArrPrice) {
-      setCryptoData(
-        cryptoData.sort((a: any, b: any) => b.price_usd - a.price_usd)
-      )
-    } else {
-      setCryptoData(
-        cryptoData.sort((a: any, b: any) => a.price_usd - b.price_usd)
-      )
-    }
-    setSortArrPrice(!sortArrPrice)
-  }
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, option)
+    document.querySelectorAll('.cryptoBar').forEach((data: any) => {
+      observer.observe(data)
+    })
+  }, [getData])
 
   return (
     <>
@@ -90,96 +55,11 @@ const Crypto: React.FC = () => {
         />
       </header>
       <div className='crypto'>
-        <div className='sort'>
-          <h3 className='sortArr' onClick={sortArrNumFunc}>
-            #<BiSortAlt2 />
-          </h3>
-          <Typography
-            className='sortArr'
-            variant='h5'
-            onClick={sortArrCoinFunc}
-          >
-            Coin
-            <BiSortAlt2 />
-          </Typography>
-          <Typography
-            className='sortArr'
-            variant='h5'
-            onClick={sortArrPriceFunc}
-          >
-            Price
-            <BiSortAlt2 />
-          </Typography>
-          <Typography variant='h5'>1h</Typography>
-          <Typography variant='h5'>24h</Typography>
-          <Typography variant='h5'>7d</Typography>
-          <Typography variant='h5'>
-            market cap
-            <BiSortAlt2 />
-          </Typography>
-          <Typography variant='h5'>24h volume</Typography>
-        </div>
-        {isLoading ? (
-          <div className='loading'>
-            <CircularProgress size={'60px'} />
-          </div>
-        ) : (
-          cryptoData
-            .filter((data: any) =>
-              data.name.toLowerCase().includes(inputData.toLowerCase())
-            )
-            .map((data: any) => {
-              return (
-                <div key={data.id} className='cryptoBar'>
-                  <Typography variant='h5'>{data.rank}</Typography>
-
-                  <div>
-                    <div className='coin'>
-                      <Typography
-                        onClick={() => {
-                          navigate(`/currency/${data.id}`)
-                        }}
-                        variant='h4'
-                      >
-                        {data.name}
-                      </Typography>
-                      <p>{data.symbol}</p>
-                    </div>
-                  </div>
-                  <Typography variant='h4'>{'$' + data.price_usd}</Typography>
-                  <p
-                    style={
-                      +data.percent_change_1h < 0
-                        ? { color: 'red' }
-                        : { color: 'green' }
-                    }
-                  >
-                    {data.percent_change_1h + '%'}
-                  </p>
-                  <p
-                    style={
-                      +data.percent_change_24h < 0
-                        ? { color: 'red' }
-                        : { color: 'green' }
-                    }
-                  >
-                    {data.percent_change_24h + '%'}
-                  </p>
-                  <p
-                    style={
-                      +data.percent_change_7d < 0
-                        ? { color: 'red' }
-                        : { color: 'green' }
-                    }
-                  >
-                    {data.percent_change_7d + '%'}
-                  </p>
-                  <p>{'$' + data.market_cap_usd}</p>
-                  <p>{'$' + data.volume24}</p>
-                </div>
-              )
-            })
-        )}
+        <CryptoNav
+          coinData={cryptoData}
+          isLoading={isLoading}
+          inputData={inputData}
+        />
       </div>
     </>
   )

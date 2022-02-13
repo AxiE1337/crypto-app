@@ -52,6 +52,8 @@
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 0.5fr 1.5fr 1.5fr 0.5fr 0.5fr 0.5fr 1fr 1fr;
+  transition: 300ms ease;
+
   h5 {
     margin-left: auto;
     margin-right: auto;
@@ -78,8 +80,13 @@
     }
   }
 }
+
 .cryptoBar:hover {
-  background-color: rgba(1, 22, 100, 0.151);
+  background-color: rgba(1, 22, 100, 0.1);
+}
+
+.cryptoBarInv {
+  opacity: 0.5;
 }
 
 .loading {
